@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8/>
+    <title>${key} LIVE</title>
+    <link href="video-js.css" rel="stylesheet">
+    <style>
+        .vjs-poster {
+            background-color: rgb(20, 22, 24);
+        }
+
+        #overlay {
+            display: none;
+	}
+
+        .overlay #overlay {
+            position: fixed;
+            display: block;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.8);
+            /*cursor: pointer;*/
+        }
+
+	.overlay .vjs-big-play-button {
+            display: none;
+        }
+
+        #text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 50px;
+            color: white;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body style="background: rgb(20, 22, 24)" class="overlay">
+<div id="overlay">
+    <div id="text"></div>
+</div>
+<video-js id="my_video_1" class="vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%"
+          height="auto">
+    <source src="https://live.ecclesias.net/live/${key}.m3u8" type="application/x-mpegURL">
+<!--    <source src="https://live.ecclesias.net/live/${key}_240p264kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ecclesias.net/live/${key}_240p528kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ecclesias.net/live/${key}_360p878kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ecclesias.net/live/${key}_480p1128kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ecclesias.net/live/${key}_720p2628kbs/index.mpd" type="application/dash+xml"> -->
+</video-js>
+
+<script src="video.min.js"></script>
+<script src="videojs-http-streaming.min.js"></script>
+<!-- <script src="dash.all.min.js"></script>
+<script src="videojs-dash.min.js"></script> -->
+
+<script>
+    var paramParts = window.location.href.match(/\?(.*)/);
+    var paramStr = paramParts ? paramParts[1] : '';
+    var paramArr = paramStr.split('&');
+    var params = {
+        poster: 'logo_live.png',
+        autoplay: 'off',
+        liveui: true,
+        beforestarttext: 'Die &Uuml;bertragung hat noch nicht begonnen, bitte haben sie noch ein wenig Geduld...',
+        afterendtext: 'Die &Uuml;bertragung ist zu Ende, bis zum n&auml;chsten mal.'
+
+    };
+    var allowedParams = ['poster', 'autoplay', 'liveui'];
+
+    for (var i = 0, parts; i < paramArr.length; i++) {
+        parts = paramArr[i].split('=');
+        key = parts[0];
+        if (params.hasOwnProperty(key)) {
+            params[key] = decodeURI(parts[1]);
+        }
+    }
+    var player = videojs('my_video_1', Object.assign({
+        poster: 'logo_live.png',
+        textTrackSettings: false,
+        fluid: true,
+        //autoplay: 'any', // starts muted, might be confusing for olderly people
+        liveui: true,
+        html5: {
+            hls: {
+                overrideNative: !videojs.browser.IS_SAFARI
+            },
+            nativeAudioTracks: false,
+            nativeVideoTracks: false
+        }
+    }, params));
+
+    var overlayOn = function (text) {
+        document.getElementById('text').innerHTML = (text);
+        document.getElementsByTagName('body')[0].classList.add("overlay");
+    };
+
+    var overlayOff = function () {
+        document.getElementsByTagName('body')[0].classList.remove("overlay");
+    };
+
+    var onAir = false;
+    var lastTime = -1;
+    var isOnAir = function() {
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", function() {
+            if(this.statusText == "OK") {
+		onAir = true;
+                overlayOff();
+                player.play();
+            }
+            else if (onAir) {
+               onAir = false;
+            }
+               if (player.currentTime() == lastTime && !player.paused() && !onAir) {
+                   overlayOn(params.afterendtext);
+                   player.pause();
+               }
+               lastTime = player.currentTime() 
+        });
+        oReq.open("GET", "https://live.ecclesias.net/isOnAir?name=${key}");
+        oReq.send();
+    }
+
+    overlayOn(params.beforestarttext);
+    isOnAir();
+    window.setInterval(isOnAir, 10000);
+
+</script>
+</body>
+</html>
+

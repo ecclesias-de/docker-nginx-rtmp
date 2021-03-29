@@ -1,0 +1,2 @@
+echo "" > $(docker inspect --format='{{.LogPath}}' 5f78dba183df)
+
