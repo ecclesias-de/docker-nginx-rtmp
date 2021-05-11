@@ -112,7 +112,7 @@
     var isOnAir = function() {
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function() {
-            if(this.statusText == "OK") {
+            if(this.status == 200) {
 		onAir = true;
                 overlayOff();
                 player.play();
