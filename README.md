@@ -1,4 +1,21 @@
-# live.ecclesias.net streaming setup
+# live.ecclesias.net streaming adjusted setup
+This branch has been adapted for operation in a specific environment. 
+
+The conditions are as follows:
+Incoming traffic is managed by a HaProxy with TLS/SSL termination. It routes all traffic to the host on port 8443 and the routed to the container on port 80. The build process of the Dockerfile no longer takes place after manual triggering on the server but this is now controlled via Gitlab and the .gitlab-ci.yml. The build is realized with Kaniko. The built Docker image is then pushed into the internal registry. The kubernetes runners are managed via Helm.
+
+
+## Changes
+## Nginx TLS/SSL removed: 
+* Server listen 443 ssl removed. Listen on http 80 and rtmp 1935 only 
+* SSL/TLS settings commented out.
+* Variable substitution for ports via Dockerfile
+
+
+## nginx-rtmp directives
+* https://github.com/JIEgOKOJI/nginx-rtmp/blob/master/directives.md
+
+## live.ecclesias.net streaming setup
 
 This is a compilation of various open-source tools to enable an easy-to-use streaming setup on [live.ecclesias.net](https://live.ecclesias.net).
 
@@ -21,3 +38,5 @@ A huge thank you to the [Erzbistum Hamburg](https://www.erzbistum-hamburg.de/) a
 * https://obsproject.com
 * https://github.com/videojs/http-streaming
 * https://isrv.pw/html5-live-streaming-with-mpeg-dash
+
+

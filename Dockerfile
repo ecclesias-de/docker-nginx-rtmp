@@ -224,7 +224,7 @@ COPY --from=build-nginx /usr/local/share/lua /usr/local/share/lua
 COPY --from=build-nginx /usr/local/include/luajit-2.0 /usr/local/include/luajit-2.0/
 COPY --from=build-nginx /usr/local/share/lua* /usr/local/share/
 COPY --from=build-ffmpeg /usr/local /usr/local
-COPY --from=build-ffmpeg /usr/lib/libfdk-aac.so.2 /usr/lib/libfdk-aac.so.2
+COPY --from=build-ffmpeg /usr/lib/libfdk-aac.so.2.0.1 /usr/lib/libfdk-aac.so.2
 
 # Add NGINX path, config and static files.
 ENV PATH "${PATH}:/usr/local/nginx/sbin"

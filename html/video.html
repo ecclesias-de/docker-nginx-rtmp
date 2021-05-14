@@ -49,12 +49,12 @@
 </div>
 <video-js id="my_video_1" class="vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%"
           height="auto">
-    <source src="https://live.ecclesias.net/live/${key}.m3u8" type="application/x-mpegURL">
-<!--    <source src="https://live.ecclesias.net/live/${key}_240p264kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_240p528kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_360p878kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_480p1128kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_720p2628kbs/index.mpd" type="application/dash+xml"> -->
+    <source src="https://live.ebhh-hosting.net/live/${key}.m3u8" type="application/x-mpegURL">
+<!--    <source src="https://live.ebhh-hosting.net/live/${key}_240p264kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ebhh-hosting.net/live/${key}_240p528kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ebhh-hosting.net/live/${key}_360p878kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ebhh-hosting.net/live/${key}_480p1128kbs/index.mpd" type="application/dash+xml">
+    <source src="https://live.ebhh-hosting.net/live/${key}_720p2628kbs/index.mpd" type="application/dash+xml"> -->
 </video-js>
 
 <script src="video.min.js"></script>
@@ -126,7 +126,7 @@
                }
                lastTime = player.currentTime() 
         });
-        oReq.open("GET", "https://live.ecclesias.net/isOnAir?name=${key}");
+        oReq.open("GET", "https://live.ebhh-hosting.net/isOnAir?name=${key}");
         oReq.send();
     }
 
