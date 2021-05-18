@@ -3,7 +3,7 @@
 <head>
     <meta charset=utf-8/>
     <title>${key} LIVE</title>
-    <link href="video-js.css" rel="stylesheet">
+    <link href="/video-js.css" rel="stylesheet">
     <style>
         .vjs-poster {
             background-color: rgb(20, 22, 24);
@@ -49,16 +49,16 @@
 </div>
 <video-js id="my_video_1" class="vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%"
           height="auto">
-    <source src="https://live.ecclesias.net/live/${key}.m3u8" type="application/x-mpegURL">
-<!--    <source src="https://live.ecclesias.net/live/${key}_240p264kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_240p528kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_360p878kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_480p1128kbs/index.mpd" type="application/dash+xml">
-    <source src="https://live.ecclesias.net/live/${key}_720p2628kbs/index.mpd" type="application/dash+xml"> -->
+    <source src="/live/${key}.m3u8" type="application/x-mpegURL">
+<!--    <source src="/live/${key}_240p264kbs/index.mpd" type="application/dash+xml">
+    <source src="/live/${key}_240p528kbs/index.mpd" type="application/dash+xml">
+    <source src="/live/${key}_360p878kbs/index.mpd" type="application/dash+xml">
+    <source src="/live/${key}_480p1128kbs/index.mpd" type="application/dash+xml">
+    <source src="/live/${key}_720p2628kbs/index.mpd" type="application/dash+xml"> -->
 </video-js>
 
-<script src="video.min.js"></script>
-<script src="videojs-http-streaming.min.js"></script>
+<script src="/video.min.js"></script>
+<script src="/videojs-http-streaming.min.js"></script>
 <!-- <script src="dash.all.min.js"></script>
 <script src="videojs-dash.min.js"></script> -->
 
@@ -67,7 +67,7 @@
     var paramStr = paramParts ? paramParts[1] : '';
     var paramArr = paramStr.split('&');
     var params = {
-        poster: 'logo_live.png',
+        poster: '/logo_live.png',
         autoplay: 'off',
         liveui: true,
         beforestarttext: 'Die &Uuml;bertragung hat noch nicht begonnen, bitte haben sie noch ein wenig Geduld...',
@@ -84,7 +84,7 @@
         }
     }
     var player = videojs('my_video_1', Object.assign({
-        poster: 'logo_live.png',
+        poster: '/logo_live.png',
         textTrackSettings: false,
         fluid: true,
         //autoplay: 'any', // starts muted, might be confusing for olderly people
@@ -126,7 +126,7 @@
                }
                lastTime = player.currentTime() 
         });
-        oReq.open("GET", "https://live.ecclesias.net/isOnAir?name=${key}");
+        oReq.open("GET", "/isOnAir?name=${key}");
         oReq.send();
     }
 
